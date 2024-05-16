@@ -13,6 +13,8 @@ def getNumberOfChaptersVerses(request):
     notdefaultbookandchapter=True
     notdefaultbook=True
     bookandchapter="psalm 119"
+    bookandchapter_bookname=""
+    bookandchapter_chapter=""
     lastverse="176"
     versefound=True
     bookname="psalms"
@@ -27,12 +29,19 @@ def getNumberOfChaptersVerses(request):
             bookname=bookname.strip()
             bookname=getBookNamesAbbreviated(bookname=bookname)
             bookname=bookname.upper()
+            numofchaps=int(getBookChapters(bookname=bookname))
+        if "bookandchapter" in request.POST:
+            bookandchapter=request.POST['bookandchapter']
+            lst=bookandchapter.split()
+            bookandchapter_bookname=lst[0]
+            bookandchapter_chapter=lst[1]
+            bookandchapter_bookname=bookandchapter_bookname.strip()
+            bookandchapter_bookname=getBookNamesAbbreviated(bookname=bookandchapter_bookname)
+            bookandchapter_bookname=bookandchapter_bookname.upper()
+            bookandchapter=bookandchapter_bookname+" "+bookandchapter_chapter
 
-        bookandchapter=request.POST['bookandchapter']
-        name=bookname
-        name=name.upper()
-        numofchaps=int(getBookChapters(bookname=name))
-        lastverse,versenotfound=findLastVerse(text=bookandchapter)
+            lastverse,versenotfound=findLastVerse(text=bookandchapter)
+
 
         return HttpResponseRedirect('?submitted=True&bookname=%s&bookandchapter=%s&lastverse=%s&versenotfound=%s' % (bookname, bookandchapter, lastverse, versenotfound))
     else:
