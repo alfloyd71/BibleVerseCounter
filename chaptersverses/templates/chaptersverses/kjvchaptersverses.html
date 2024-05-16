@@ -1,7 +1,7 @@
 {% extends 'chaptersverses/base.html' %}
 {% block title %}
 The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
-{% endblock %}
+{% endblock title %}
 {% block description %}
 <meta name="description" content="This user-friendly tool empowers you to effortlessly discover essential information about any book in the King James Version (KJV) of the Bible.">
 {% endblock description %}
@@ -9,7 +9,7 @@ The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
    
 <!--bootstrap minified reduced size css version-->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+<link rel="stylesheet" href="/static/chaptersverses/css/styles.css">
 <!--links to javascript files-->
 <!--the latest version jquery 3.5 should come before bootstap-min.js-->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -21,112 +21,25 @@ The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
 {% endblock headtags %}
 
 {% block content %}
-<style nonce="{{ request.csp_nonce }}">
-    #book-name{
-        height: 5vh;
-        width: auto;
-        margin-top: 2%;
-    }
-    #book-and-chapter{
-        height: 5vh;
-        width: auto;
-        margin-top: 2%;
-    }
-    #button-get-chapters{
-        height: 5vh;
-        width: auto;
-        margin-top: 2%;
-    }
-    #button-get-verses{
-        height: 5vh;
-        width: auto;
-        margin-top: 2%;
-    }
-    body {
-        padding: 0%;
-        max-width: 100%;
-    }
-
-    .error {
-        color:red;
-    }
-/* Add a black background color to the top navigation */
-    .topnav {
-      /*background-color: #333;*/
-      overflow: hidden;
-    }
-    
-    /* Style the links inside the navigation bar */
-    .topnav a {
-      float: left;
-      color: blue;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-    
-    /* Change the color of links on hover */
-    .topnav a:hover {
-      /*background-color: #dddd;*/
-      color: white;
-    }
-    
-    /* Add a color to the active/current link */
-    .topnav a.active {
-      background-color: #0d6efd;
-      color: white;
-    }
-    #chapters{
-        padding-top: 10%;
-    }
-    #howmanychapters{
-        padding-top: 10%;
-    }
-    #verses{
-        padding-top: 10%;
-    }
-
-    #btngetchapters{
-        border: 0px solid darkblue;margin: 2%;
-    }
-    #btngetverses{
-        border:0px solid darkblue;margin: 2%;
-    }
-    
-    h3{
-        color: white;
-    }
-    .whitetext{
-        color: rgb(0,123, 255);
-    }
-   
-    hr {
-
-        border: 5px solid darkblue;margin-top:2%;margin-bottom: 2%;
-    }
-    #table-row-bookname{
-        margin-top: 2%;
-    }
-    </style>
-
-
+<main>
+  <h1><img src="/static/bibleflashcardsjs/images/icons/book-bible-solid.svg"> Bible Verse Counter</h1>
+  
 <!-- Container for dynamically created navigation bar -->
 <div class = "topnav" id="navbar-container"></div>
 
 <form method = "post" novalidate>
     {% csrf_token %}
+    <section>
+      <h2>Chapters</h2>
     <div id="btngetchapters" class="row">
         <div class="col-md-6">
             
-              <h2>How many chapters are in a given book?</h2>
-            <table id="table-row-bookname">
-                <tr><td>
+            <fieldset class="border border-secondary p-2">   
+              <legend class="w-auto">How many chapters are in a given book?</legend>
+         
               {{ form.bookname }}
-                </td><td>
               <button id="button-get-chapters" class="btn btn-primary">Get Chapters</button>
-                </td></tr>
-            </table>    
+            </fieldset>
             
               {% if notdefaultbook %}
               <p><h3 class="alert alert-info">The book of <span class="whitetext">{{ bookname }}</span> has <span class="whitetext">{{ numofchaps }} chapters</span>.</h3></p>
@@ -139,19 +52,19 @@ The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
             <h2>&nbsp;</h2>
         </div>
     </div>
+    </section>
 
     <hr>
-
+    <section>
+      <h2>Verses</h2>
     <div id="btngetverses" class="row">
         <div class="col-md-9">
-   
-            <h2>How many verses are in a given book and chapter?</h2>
-            <table id="table-book-and-chapter">
-            <tr>
-               <td>{{ form.bookandchapter }}</td>
-               <td><button id="button-get-verses" class="btn btn-primary">Get Verses</button></td>
-            </tr>
-            </table>    
+          <fieldset class="border border-secondary p-2">   
+            <legend class="w-auto">How many verses are in a given book and chapter?</legend> 
+            
+            {{ form.bookandchapter }}
+            <button id="button-get-verses" class="btn btn-primary">Get Verses</button>
+          </fieldset>
             {% if versefound %}
                {% if notdefaultbookandchapter %}
                  <p><h3 class="alert alert-info">There are <span class="whitetext">{{ lastverse }} verses</span> in <span class="whitetext">{{ bookandchapter }}</span></h3></p>
@@ -168,11 +81,11 @@ The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
             <h2>&nbsp;</h2>
         </div>
     </div>
-
+  </section>
 
 </form>
-
-{% endblock %}
+</main>
+{% endblock content %}
 
 {% block footer %}
   <footer class="footer py-5">
