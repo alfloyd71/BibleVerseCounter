@@ -9,12 +9,13 @@ from .names_abbreviated import getBookNamesAbbreviated
 # Create your views here.
 
 def getNumberOfChaptersVerses(request):
+    is_bookandchapter=True
     versenotfound=False
     notdefaultbookandchapter=True
     notdefaultbook=True
     bookandchapter="psalm 119"
-    bookandchapter_bookname=""
-    bookandchapter_chapter=""
+    bookandchapter_bookname="psalm"
+    bookandchapter_chapter="119"
     lastverse="176"
     versefound=True
     bookname="psalms"
@@ -30,11 +31,17 @@ def getNumberOfChaptersVerses(request):
             bookname=getBookNamesAbbreviated(bookname=bookname)
             bookname=bookname.upper()
             numofchaps=int(getBookChapters(bookname=bookname))
+            is_bookandchapter=False
         if "bookandchapter" in request.POST:
             bookandchapter=request.POST['bookandchapter']
             lst=bookandchapter.split()
-            bookandchapter_bookname=lst[0]
-            bookandchapter_chapter=lst[1]
+            if "bookname" in request.POST:
+              if request.POST['bookname']=="":
+                bookandchapter_bookname=lst[0]
+                bookandchapter_chapter=lst[1]
+              else:
+                  bookandchapter_bookname="psalm"
+                  bookandchapter_chapter="119"
             bookandchapter_bookname=bookandchapter_bookname.strip()
             bookandchapter_bookname=getBookNamesAbbreviated(bookname=bookandchapter_bookname)
             bookandchapter_bookname=bookandchapter_bookname.upper()
