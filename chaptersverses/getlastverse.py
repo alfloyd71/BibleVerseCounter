@@ -13,6 +13,7 @@ def findLastVerse(text="1 tim 1"):
     versenotfound=False
     chapter=""
     bookandchapter=""
+    bkname=""
     try:
         references = bible.get_references(text)
     except:
