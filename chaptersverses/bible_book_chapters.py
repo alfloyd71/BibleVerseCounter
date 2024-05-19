@@ -152,7 +152,3 @@ def getBookChapters(bookname="PSALMS"):
             return str(0)
         
     return str(numofchaps)
-
-
-bookname=""
-prompt =""

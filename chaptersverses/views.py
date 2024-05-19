@@ -3,7 +3,7 @@ from .bible_book_chapters import getBookChapters
 from .getlastverse import findLastVerse
 from django.http import HttpResponseRedirect
 from chaptersverses.forms import BookChaptersVersesForm
-import string
+import string, re
 from .names_abbreviated import getBookNamesAbbreviated
 
 # Create your views here.
@@ -45,8 +45,12 @@ def getNumberOfChaptersVerses(request):
             bookandchapter_bookname=bookandchapter_bookname.strip()
             bookandchapter_bookname=getBookNamesAbbreviated(bookname=bookandchapter_bookname)
             bookandchapter_bookname=bookandchapter_bookname.upper()
-            bookandchapter=bookandchapter_bookname+" "+bookandchapter_chapter
-
+            pattern = r'^\d+\s+\w+\s+\d+'
+            text = "2 Peter 3:8"
+            match = re.match(pattern, bookandchapter)
+            if(not match):
+              bookandchapter=bookandchapter_bookname+" "+bookandchapter_chapter
+            
             lastverse,versenotfound=findLastVerse(text=bookandchapter)
 
 
