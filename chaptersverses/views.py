@@ -37,8 +37,12 @@ def getNumberOfChaptersVerses(request):
             lst=bookandchapter.split()
             if "bookname" in request.POST:
               if request.POST['bookname']=="":
-                bookandchapter_bookname=lst[0]
-                bookandchapter_chapter=lst[1]
+                try:
+                  bookandchapter_bookname=lst[0]
+                  bookandchapter_chapter=lst[1]
+                except IndexError:
+                  bookandchapter_bookname="psalm"
+                  bookandchapter_chapter="119"         
               else:
                   bookandchapter_bookname="psalm"
                   bookandchapter_chapter="119"
