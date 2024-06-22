@@ -29,6 +29,8 @@ def findLastVerse(text="1 tim 1"):
     match (formatted_reference):
         case "Philemon 1":
             formatted_reference="Philemon 1:1-25"
+        case "Obadiah 1":
+            formatted_reference="Philemon 1:1-21"
         case "2 John 1":
             formatted_reference="2 John 1:1-13"
         case "3 John 1":
