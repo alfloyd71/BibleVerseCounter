@@ -111,6 +111,8 @@ def getBookNamesAbbreviated(bookname="psalms"):
             bookname="obadiah"
         case "OBA":
             bookname="obadiah"
+        case "OBAD":
+            bookname="obadiah"
         case "JON":
             bookname="jonah"
         case "MI":
