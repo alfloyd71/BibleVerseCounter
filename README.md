@@ -6,4 +6,4 @@ BVC was written using Django and Javascript and it tracks well with the 'Bible F
 
 ![Bible Verse Counter](https://www.freesmartphoneapps.com/static/projects/images/BibleVerseCounterAndroid.png "Bible Verse Counter")
 
-[Bible Verse Counter](https://www.freesmartphoneapps.com/chaptersverses/)
+[Bible Verse Counter](https://www.freesmartphoneapps.com/bible-verse-counter/)
