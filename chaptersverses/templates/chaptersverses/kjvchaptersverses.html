@@ -1,49 +1,26 @@
 {% extends 'chaptersverses/base.html' %}
-{% block title %}
-Bible Verse Counter - The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
-{% endblock title %}
 {% block description %}
 <meta name="description" content="This user-friendly tool empowers you to effortlessly discover essential information about any book in the King James Version (KJV) of the Bible.">
 {% endblock description %}
-{% block headtags %}
-   
-<!--bootstrap minified reduced size css version-->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+{% block title %}
+Bible Verse Counter - The book of Psalms has 150 chapters and there are 176 verses in Psalm 119
+{% endblock title %}
+
+{% block customstyles %}
 <link rel="stylesheet" href="/static/chaptersverses/css/styles.css">
-<!--links to javascript files-->
-<!--the latest version jquery 3.5 should come before bootstap-min.js-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<!--Popper.js is a popular JavaScript library used for positioning tooltips and popovers in web applications.-->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    
+{% endblock customstyles %}
 
-{% endblock headtags %}
 {% block header %}
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"><img width ="100%" height="100%" src="/static/chaptersverses/images/icons/bars-solid-black.svg"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <!-- This is the root domain for your Django project - edit this to match your actual root domain -->
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'getNumberOfChaptersVerses' %}">Bible Verse Counter</a>
-      </li>
-      
-   
-    </ul>
-  </div>
-
-</nav>
+<header>
+  <h1>
+    <img src="/static/chaptersverses/images/icons/holy-bible.png">Bible Verse Counter
+  </h1>
+</header>
 {% endblock header %}
+
 {% block content %}
 <main>
-  <h1><img src="/static/bibleflashcardsjs/images/icons/book-bible-solid.svg">Bible Verse Counter</h1>
   
 <!-- Container for dynamically created navigation bar -->
 <div class = "topnav" id="navbar-container"></div>
@@ -51,57 +28,54 @@ Bible Verse Counter - The book of Psalms has 150 chapters and there are 176 vers
 <form method = "post" novalidate>
     {% csrf_token %}
     <section>
-      <h2>Chapters</h2>
-    <div id="btngetchapters" class="row">
-        <div class="col-md-6">
-            
-            <fieldset class="border border-secondary p-2">   
-              <legend class="w-auto">How many chapters are in a given book?</legend>
-         
-              {{ form.bookname }}
-              <button id="button-get-chapters" class="btn btn-primary">Get Chapters</button>
-            </fieldset>
-            
-              {% if notdefaultbook %}
-              <p><h3 class="alert alert-info">The book of <span class="whitetext">{{ bookname }}</span> has <span class="whitetext">{{ numofchaps }} chapters</span>.</h3></p>
-              {% else %}
-              <p><h3 class="alert alert-info">The book of <span class="whitetext">Psalms</span> has <span class="whitetext">150 chapters</span>.</h3></p>
-              {% endif %}
-           
-        </div>
-        <div class="col-md-6">
-            <h2>&nbsp;</h2>
-        </div>
-    </div>
+      <div id="btngetchapters" class="flex-col">
+        <h2>Chapters</h2>
+        <fieldset class="border border-secondary p-2">   
+          <legend class="w-auto">How many chapters are in a given book?</legend>
+      
+          {{ form.bookname }}
+          <button id="button-get-chapters" class="btn btn-primary">Get Chapters</button>
+        </fieldset>
+              
+        {% if notdefaultbook %}
+        <h3 class="alert alert-info">
+          The book of <span class="whitetext">{{ bookname }}</span> has <span class="whitetext">{{ numofchaps }} chapters</span>.
+        </h3>
+        {% else %}
+        <h3 class="alert alert-info">
+          The book of <span class="whitetext">Psalms</span> has <span  class="whitetext">150 chapters</span>.
+        </h3>
+        {% endif %}
+      <!--end first flex-col-->       
+      </div>
+       
     </section>
 
     <hr>
     <section>
-      <h2>Verses</h2>
-    <div id="btngetverses" class="row">
-        <div class="col-md-9">
-          <fieldset class="border border-secondary p-2">   
-            <legend class="w-auto">How many verses are in a given book and chapter?</legend> 
-            
-            {{ form.bookandchapter }}
-            <button id="button-get-verses" class="btn btn-primary">Get Verses</button>
-          </fieldset>
-            {% if versefound %}
-               {% if notdefaultbookandchapter %}
-                 <p><h3 class="alert alert-info">There are <span class="whitetext">{{ lastverse }} verses</span> in <span class="whitetext">{{ bookandchapter }}</span></h3></p>
-               {% else %}
-                 <p><h3 class="alert alert-info">There are <span class="whitetext">176 verses</span> in <span class="whitetext">Psalm 119</span></h3></p>
-               {% endif %}    
-                  
-               
-           {% endif %}  
-      
-            
-        </div>
-        <div class="col-md-3">
-            <h2>&nbsp;</h2>
-        </div>
-    </div>
+      <div id="btngetverses" class="flex-col">
+        <h2>Verses</h2>
+        <fieldset class="border border-secondary p-2">   
+          <legend class="w-auto">How many verses are in a given book and chapter?</legend> 
+          
+          {{ form.bookandchapter }}
+          <button id="button-get-verses" class="btn btn-primary">Get Verses</button>
+        </fieldset>
+        {% if versefound %}
+          {% if notdefaultbookandchapter %}
+            <h3 class="alert alert-info">
+              There are <span class="whitetext">{{ lastverse }} verses</span> in <span class="whitetext">{{ bookandchapter }}</span>
+            </h3>
+          {% else %}
+            <h3 class="alert alert-info">
+              There are <span class="whitetext">176 verses</span> in <span class="whitetext">Psalm 119</span>
+            </h3>
+          {% endif %}    
+              
+        {% endif %}  
+
+      <!--end second flex-col-->  
+      </div>
   </section>
 
 </form>
@@ -121,7 +95,4 @@ Bible Verse Counter - The book of Psalms has 150 chapters and there are 176 vers
       </div>
     </div>
   </footer>    
-{% endblock %}
-
-
-
+{% endblock footer %}

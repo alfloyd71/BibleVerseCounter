@@ -3,34 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no width=device-width, initial-scale=1">
-    <title>
-      {% block title %}
-               
-      {% endblock %}
-    </title>
     {% block description %}
     {% endblock description %}
-    {% block headtags %}
-    {% endblock headtags %}
-    <style nonce="{{request.csp_nonce}}">
-      /* Change the color of links on hover */
-.collapse a:hover {
-  background-color: #ddd;
-  color: black;
-}
 
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #0d6efd;
-  color: white;
-}
-main{
-  max-width: 96%;
-}
+    <title>
+      {% block title %}
+      {% endblock title %}
+    </title>
+    
+    <link rel="stylesheet" href="/static/chaptersverses/css/responsive-navbar.css">
+    {% block customstyles %}
+    {% endblock customstyles %}
 
-    </style>
 </head>
 <body>
+  {% include 'chaptersverses/navbar.html' %}
   {% block header %}
   {% endblock header %}
 
@@ -39,9 +26,6 @@ main{
 
   {% block footer %}
   {% endblock footer %}
-
-  {% block script %}
-  {% endblock script %}
-
+  <script src="/static/chaptersverses/js/responsive-navbar.js"></script>
 </body>
 </html>
